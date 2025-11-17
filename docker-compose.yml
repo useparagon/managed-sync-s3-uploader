@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  paragon-sync-extractor:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PARAGON_USER_TOKEN=${PARAGON_USER_TOKEN}
+      - PARAGON_BASE_URL=${PARAGON_BASE_URL:-https://sync.useparagon.com}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - PORT=3000
+      - PERSISTENCE_MODE=${PERSISTENCE_MODE:-s3}
+      - PERSISTENCE_S3_KEY=${PERSISTENCE_S3_KEY:-.sync-state/processed-records.json}
+    # volumes:
+    # - ./data:/app/data
+    restart: unless-stopped

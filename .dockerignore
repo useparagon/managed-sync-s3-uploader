@@ -1,0 +1,14 @@
+node_modules
+dist
+.env
+.git
+.gitignore
+*.log
+.DS_Store
+*.tsbuildinfo
+.processed-records.json
+data
+README.md
+.vscode
+.idea
+
