@@ -16,9 +16,9 @@ router.post("/webhooks", async (req: Request, res: Response) => {
       headers: req.headers,
     });
 
-    const event: WebhookEvent & { token?: string } = req.body;
+    const body = req.body;
 
-    if (!event || typeof event !== "object") {
+    if (!body || typeof body !== "object") {
       logger.error(
         LogCategory.WEBHOOK,
         "Invalid webhook payload: body is not an object",
@@ -30,6 +30,17 @@ router.post("/webhooks", async (req: Request, res: Response) => {
       });
       return;
     }
+
+    if (body.event === "webhook_verification") {
+      logger.info(
+        LogCategory.WEBHOOK,
+        "Webhook URL verification probe received, skipping processing"
+      );
+      res.status(200).json({ success: true });
+      return;
+    }
+
+    const event: WebhookEvent & { token?: string } = body;
 
     if (!event.event || !event.syncInstanceId || !event.user.id) {
       logger.error(
