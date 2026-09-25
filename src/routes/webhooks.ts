@@ -31,6 +31,12 @@ router.post("/webhooks", async (req: Request, res: Response) => {
       return;
     }
 
+    if (event.event === "webhook_verification") {
+      logger.info(LogCategory.WEBHOOK, "Webhook URL verification received");
+      res.sendStatus(200);
+      return;
+    }
+
     if (!event.event || !event.syncInstanceId || !event.user.id) {
       logger.error(
         LogCategory.WEBHOOK,

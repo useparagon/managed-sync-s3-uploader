@@ -46,7 +46,8 @@ export interface WebhookEvent {
     | "record_created"
     | "record_updated"
     | "record_deleted"
-    | "record_errored";
+    | "record_errored"
+    | "webhook_verification";
   syncInstanceId: string;
   sync?: string;
   user: {
